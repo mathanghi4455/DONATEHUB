@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DonateHub — Next-Gen Donation Drive & Distribution System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Glow Accents -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- Top Glassmorphism Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="logo-wrapper">
+          <span class="logo-emoji">🤝</span>
+          <span class="logo-glow"></span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title-row">
+            <h1 class="brand-title">Donate<span class="brand-highlight">Hub</span></h1>
+            <span class="badge badge-primary-subtle version-pill">PRO v2.4</span>
+          </div>
+          <p class="brand-subtitle">Drive Inventory & Community Distribution Platform</p>
+        </div>
+      </div>
+
+      <nav class="nav-tabs" role="tablist">
+        <button class="nav-tab active" data-tab="tab-dashboard" role="tab">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Dashboard
+        </button>
+        <button class="nav-tab" data-tab="tab-drives" role="tab">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Drives
+        </button>
+        <button class="nav-tab" data-tab="tab-items" role="tab">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          Inventory Items
+        </button>
+        <button class="nav-tab" data-tab="tab-distributions" role="tab">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          Distributions
+        </button>
+        <button class="nav-tab" data-tab="tab-stakeholders" role="tab">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Stakeholders
+        </button>
+      </nav>
+
+      <div class="nav-right">
+        <div class="api-status" id="apiStatusBadge">
+          <span class="status-pulse"></span>
+          <span id="apiStatusText">Connecting...</span>
+        </div>
+        <button class="btn btn-primary btn-sm btn-icon-pulse" onclick="openModal('modalCreateDrive')">
+          <span>+ Quick Action</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Toast Notification Center -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Main Application Canvas -->
+  <main class="main-container">
+
+    <!-- ================= TAB 1: DASHBOARD ================= -->
+    <section id="tab-dashboard" class="tab-content active">
+      <!-- Welcome Hero Card -->
+      <div class="hero-banner">
+        <div class="hero-content">
+          <div class="hero-tag">🌟 Real-Time Operational Overview</div>
+          <h2 class="hero-title">Track, Manage & Distribute Donations Seamlessly</h2>
+          <p class="hero-desc">Monitor inventory intake from verified donors and track fulfillment pipeline directly to community shelters and organizations.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary shadow-glow" onclick="openModal('modalLogItem')">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Log New Item
+            </button>
+            <button class="btn btn-success shadow-glow-green" onclick="openModal('modalDistribute')">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+              Record Distribution
+            </button>
+            <button class="btn btn-glass" onclick="openModal('modalCreateDrive')">+ New Drive</button>
+          </div>
+        </div>
+        <div class="hero-stat-pill-box">
+          <div class="hero-pill-stat">
+            <span class="hero-pill-label">Database</span>
+            <span class="hero-pill-val">MySQL 9.x</span>
+          </div>
+          <div class="hero-pill-stat">
+            <span class="hero-pill-label">Backend</span>
+            <span class="hero-pill-val">Spring Boot 4.1</span>
+          </div>
+          <div class="hero-pill-stat">
+            <span class="hero-pill-label">ORM Status</span>
+            <span class="hero-pill-val text-emerald">Connected</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric KPI Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card metric-card-blue">
+          <div class="metric-glow"></div>
+          <div class="metric-header">
+            <div>
+              <span class="metric-label">Active Drives</span>
+              <div class="metric-value" id="kpiDrivesCount">0</div>
+            </div>
+            <div class="metric-icon-circle bg-blue-light">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#4f46e5" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <span class="trend-badge positive">Active</span>
+            <span class="footer-desc">Campaigns currently running</span>
+          </div>
+        </div>
+
+        <div class="metric-card metric-card-teal">
+          <div class="metric-glow"></div>
+          <div class="metric-header">
+            <div>
+              <span class="metric-label">Total Items Collected</span>
+              <div class="metric-value" id="kpiItemsCollected">0</div>
+            </div>
+            <div class="metric-icon-circle bg-teal-light">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0d9488" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <span class="trend-badge neutral">Intake</span>
+            <span class="footer-desc">Units logged from donors</span>
+          </div>
+        </div>
+
+        <div class="metric-card metric-card-purple">
+          <div class="metric-glow"></div>
+          <div class="metric-header">
+            <div>
+              <span class="metric-label">Units Distributed</span>
+              <div class="metric-value" id="kpiItemsDistributed">0</div>
+            </div>
+            <div class="metric-icon-circle bg-purple-light">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <span class="trend-badge positive">Delivered</span>
+            <span class="footer-desc">Dispatched to recipients</span>
+          </div>
+        </div>
+
+        <div class="metric-card metric-card-amber">
+          <div class="metric-glow"></div>
+          <div class="metric-header">
+            <div>
+              <span class="metric-label">Remaining In Stock</span>
+              <div class="metric-value" id="kpiRemainingStock">0</div>
+            </div>
+            <div class="metric-icon-circle bg-amber-light">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#d97706" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <span class="trend-badge warning">Inventory</span>
+            <span class="footer-desc">Available for distribution</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drives Summary Card Table -->
+      <div class="card elevated-card">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-title-icon bg-indigo-light">📊</div>
+            <div>
+              <h2 class="card-title">Drive Performance & Fulfillment Summary</h2>
+              <p class="card-subtitle">Aggregated per-drive metrics, fulfillment ratios, and inventory balance</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-outline btn-sm" onclick="loadDashboard()">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+              Refresh
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openModal('modalCreateDrive')">+ New Campaign</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="driveSummaryTable">
+            <thead>
+              <tr>
+                <th>Drive Name</th>
+                <th>Active Timeline</th>
+                <th>Status</th>
+                <th>Collected</th>
+                <th>Distributed</th>
+                <th>Remaining</th>
+                <th>Fulfillment Rate</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="driveSummaryTableBody">
+              <tr><td colspan="8" class="text-center text-muted py-8">Loading summary metrics...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Undistributed Remaining Stock Section -->
+      <div class="card elevated-card mt-6">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-title-icon bg-emerald-light">📦</div>
+            <div>
+              <h2 class="card-title">Available Inventory (Undistributed Items)</h2>
+              <p class="card-subtitle">Items currently in storage awaiting recipient assignment</p>
+            </div>
+          </div>
+          <div class="card-actions">
+            <span class="badge badge-emerald-glow" id="undistributedCountBadge">0 Items in Stock</span>
+            <button class="btn btn-success btn-sm" onclick="openModal('modalDistribute')">⚡ Quick Dispatch</button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table" id="remainingStockTable">
+            <thead>
+              <tr>
+                <th>Item Specification</th>
+                <th>Category</th>
+                <th>Associated Drive</th>
+                <th>Donor</th>
+                <th>Condition</th>
+                <th>Available / Total</th>
+                <th>Status</th>
+                <th>Quick Action</th>
+              </tr>
+            </thead>
+            <tbody id="remainingStockTableBody">
+              <tr><td colspan="8" class="text-center text-muted py-8">No undistributed items in stock</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: DRIVES ================= -->
+    <section id="tab-drives" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Donation Drives & Campaigns</h2>
+          <p class="section-subtitle">Manage multi-day collection drives, timelines, target locations, and performance</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchDrivesInput" placeholder="Search drives..." oninput="filterDrivesCards()">
+          </div>
+          <button class="btn btn-primary shadow-glow" onclick="openModal('modalCreateDrive')">+ Create Donation Drive</button>
+        </div>
+      </div>
+
+      <div class="drives-grid" id="drivesGrid">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: DONATED ITEMS ================= -->
+    <section id="tab-items" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Master Inventory Log</h2>
+          <p class="section-subtitle">Complete registry of all physical items logged across all collection drives</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchItemsInput" placeholder="Search items, categories..." oninput="filterItemsTable()">
+          </div>
+          <select id="filterDriveSelect" class="form-select form-select-pill" onchange="filterItemsByDrive()">
+            <option value="">All Donation Drives</option>
+          </select>
+          <button class="btn btn-primary shadow-glow" onclick="openModal('modalLogItem')">+ Log Item</button>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="category-chips-bar" id="categoryChipsBar">
+        <button class="chip active" onclick="filterItemsByCategory('ALL')">All Categories</button>
+        <button class="chip" onclick="filterItemsByCategory('CLOTHING')">👕 Clothing</button>
+        <button class="chip" onclick="filterItemsByCategory('BEDDING')">🛏️ Bedding</button>
+        <button class="chip" onclick="filterItemsByCategory('FOOD')">🍞 Food</button>
+        <button class="chip" onclick="filterItemsByCategory('BOOKS')">📚 Books</button>
+        <button class="chip" onclick="filterItemsByCategory('TOYS')">🧸 Toys</button>
+        <button class="chip" onclick="filterItemsByCategory('MEDICAL_SUPPLIES')">🩺 Medical</button>
+        <button class="chip" onclick="filterItemsByCategory('HYGIENE_PRODUCTS')">🧼 Hygiene</button>
+        <button class="chip" onclick="filterItemsByCategory('ELECTRONICS')">💻 Electronics</button>
+        <button class="chip" onclick="filterItemsByCategory('OTHER')">📦 Other</button>
+      </div>
+
+      <div class="card elevated-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Item Name</th>
+                <th>Category</th>
+                <th>Condition</th>
+                <th>Drive</th>
+                <th>Donor</th>
+                <th>Total Qty</th>
+                <th>Available</th>
+                <th>Received Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="allItemsTableBody">
+              <tr><td colspan="11" class="text-center text-muted py-8">Loading item inventory...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: DISTRIBUTIONS ================= -->
+    <section id="tab-distributions" class="tab-content">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Distribution Audit Log</h2>
+          <p class="section-subtitle">Real-time audit record of all items distributed to recipient charity organizations</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="searchDistributionsInput" placeholder="Search distributions..." oninput="filterDistributionsTable()">
+          </div>
+          <button class="btn btn-success shadow-glow-green" onclick="openModal('modalDistribute')">+ Record Distribution</button>
+        </div>
+      </div>
+
+      <div class="card elevated-card">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Record #</th>
+                <th>Dispatch Date</th>
+                <th>Item Dispatched</th>
+                <th>Recipient Organization</th>
+                <th>Units Distributed</th>
+                <th>Source Drive</th>
+                <th>Purpose / Cause</th>
+                <th>Handled By</th>
+              </tr>
+            </thead>
+            <tbody id="distributionsTableBody">
+              <tr><td colspan="8" class="text-center text-muted py-8">No distributions recorded yet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 5: DONORS & RECIPIENTS ================= -->
+    <section id="tab-stakeholders" class="tab-content">
+      <div class="two-column-grid">
+        <!-- Donors Column -->
+        <div class="card elevated-card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-title-icon bg-indigo-light">👤</div>
+              <div>
+                <h2 class="card-title">Registered Donors</h2>
+                <p class="card-subtitle">Individuals and sponsors contributing items</p>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="openModal('modalDonor')">+ Register Donor</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Donor</th>
+                  <th>Contact Info</th>
+                  <th>Location</th>
+                </tr>
+              </thead>
+              <tbody id="donorsTableBody">
+                <tr><td colspan="3" class="text-center text-muted py-8">Loading donors...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recipients Column -->
+        <div class="card elevated-card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <div class="card-title-icon bg-emerald-light">🏛️</div>
+              <div>
+                <h2 class="card-title">Recipient Organizations</h2>
+                <p class="card-subtitle">Verified shelters, NGOs, and community aid facilities</p>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="openModal('modalRecipient')">+ Register Recipient</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Organization</th>
+                  <th>Contact Person</th>
+                  <th>Phone / Email</th>
+                </tr>
+              </thead>
+              <tbody id="recipientsTableBody">
+                <tr><td colspan="3" class="text-center text-muted py-8">Loading recipients...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Modal 1: Create Drive -->
+  <div id="modalCreateDrive" class="modal-backdrop">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h3 class="modal-title">Create Donation Drive</h3>
+          <p class="modal-subtitle">Launch a campaign to collect relief items and resources</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalCreateDrive')">&times;</button>
+      </div>
+      <form id="formCreateDrive" onsubmit="handleCreateDrive(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="driveName">Drive Title *</label>
+            <input type="text" id="driveName" class="form-input" required placeholder="e.g. Winter Warmth Initiative 2026">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="driveStartDate">Start Date *</label>
+              <input type="date" id="driveStartDate" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="driveEndDate">End Date *</label>
+              <input type="date" id="driveEndDate" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="driveLocation">Collection Hub / Venue</label>
+            <input type="text" id="driveLocation" class="form-input" placeholder="e.g. City Community Hall, Ground Floor">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="driveDescription">Drive Mission & Target Beneficiaries</label>
+            <textarea id="driveDescription" class="form-textarea" rows="3" placeholder="Describe the purpose, target donation goods, and beneficiaries..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalCreateDrive')">Cancel</button>
+          <button type="submit" class="btn btn-primary shadow-glow">Create Campaign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Log Donated Item -->
+  <div id="modalLogItem" class="modal-backdrop">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h3 class="modal-title">Log Donated Goods into Inventory</h3>
+          <p class="modal-subtitle">Record item details, category, quantity, and donor attribution</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalLogItem')">&times;</button>
+      </div>
+      <form id="formLogItem" onsubmit="handleLogItem(event)">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="itemDriveSelect">Assign to Donation Drive *</label>
+              <select id="itemDriveSelect" class="form-select" required>
+                <option value="">Select an active drive...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="itemDonorSelect">Donor Attribution *</label>
+              <select id="itemDonorSelect" class="form-select" required>
+                <option value="">Select a donor...</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="itemName">Item Name & Description *</label>
+            <input type="text" id="itemName" class="form-input" required placeholder="e.g. Thermal Fleece Blankets (Pack of 5)">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="itemCategory">Category *</label>
+              <select id="itemCategory" class="form-select" required>
+                <option value="CLOTHING">👕 Clothing</option>
+                <option value="BEDDING">🛏️ Bedding</option>
+                <option value="FOOD">🍞 Food & Groceries</option>
+                <option value="BOOKS">📚 Educational / Books</option>
+                <option value="TOYS">🧸 Toys & Games</option>
+                <option value="MEDICAL_SUPPLIES">🩺 Medical Supplies</option>
+                <option value="HYGIENE_PRODUCTS">🧼 Hygiene Essentials</option>
+                <option value="ELECTRONICS">💻 Electronics & Appliances</option>
+                <option value="OTHER">📦 Miscellaneous Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="itemCondition">Item Condition *</label>
+              <select id="itemCondition" class="form-select" required>
+                <option value="NEW">✨ Brand New</option>
+                <option value="LIKE_NEW">💎 Like New (Gently Used)</option>
+                <option value="GOOD">👍 Good Functional Condition</option>
+                <option value="FAIR">👌 Fair Condition</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="itemQuantity">Quantity (Total Units) *</label>
+              <input type="number" id="itemQuantity" class="form-input" min="1" value="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="itemReceivedDate">Received Date *</label>
+              <input type="date" id="itemReceivedDate" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="itemNotes">Inventory Notes / Specifications</label>
+            <input type="text" id="itemNotes" class="form-input" placeholder="e.g. Size XL, Sealed in box, Expiry 2027">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalLogItem')">Cancel</button>
+          <button type="submit" class="btn btn-primary shadow-glow">Record to Inventory</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Record Distribution -->
+  <div id="modalDistribute" class="modal-backdrop">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h3 class="modal-title">Record Item Distribution</h3>
+          <p class="modal-subtitle">Dispatch verified stock to registered recipient charity organization</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalDistribute')">&times;</button>
+      </div>
+      <form id="formDistribute" onsubmit="handleRecordDistribution(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="distItemSelect">Select Item from In-Stock Inventory *</label>
+            <select id="distItemSelect" class="form-select" required onchange="handleStockItemChange()">
+              <option value="">Select available item...</option>
+            </select>
+            <div class="stock-pill-hint" id="stockAvailableHint">Select an item above to inspect available balance.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="distRecipientSelect">Recipient Organization *</label>
+            <select id="distRecipientSelect" class="form-select" required>
+              <option value="">Select recipient organization...</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="distQuantity">Units to Dispatch *</label>
+              <input type="number" id="distQuantity" class="form-input" min="1" required placeholder="Units">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="distDate">Dispatch Date *</label>
+              <input type="date" id="distDate" class="form-input" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="distPurpose">Mission / Relief Purpose</label>
+            <input type="text" id="distPurpose" class="form-input" placeholder="e.g. Night shelter winter relief drive">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="distBy">Staff / Volunteer Coordinator</label>
+            <input type="text" id="distBy" class="form-input" placeholder="e.g. Sarah Jenkins (Logistics Lead)">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalDistribute')">Cancel</button>
+          <button type="submit" class="btn btn-success shadow-glow-green">Confirm & Dispatch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Register Donor -->
+  <div id="modalDonor" class="modal-backdrop">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h3 class="modal-title">Register New Donor</h3>
+          <p class="modal-subtitle">Add a donor profile for item tracking and acknowledgment</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalDonor')">&times;</button>
+      </div>
+      <form id="formDonor" onsubmit="handleCreateDonor(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="donorName">Full Name / Organization *</label>
+            <input type="text" id="donorName" class="form-input" required placeholder="e.g. Priya Sharma">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="donorEmail">Email Address</label>
+              <input type="email" id="donorEmail" class="form-input" placeholder="priya@example.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="donorPhone">Phone Number</label>
+              <input type="text" id="donorPhone" class="form-input" placeholder="+91 98765 43210">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="donorAddress">Street Address / Area</label>
+            <input type="text" id="donorAddress" class="form-input" placeholder="e.g. 42 Park Avenue, South Extension">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalDonor')">Cancel</button>
+          <button type="submit" class="btn btn-primary shadow-glow">Save Donor Profile</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Register Recipient -->
+  <div id="modalRecipient" class="modal-backdrop">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h3 class="modal-title">Register Recipient Organization</h3>
+          <p class="modal-subtitle">Enroll verified orphanages, shelters, or relief foundations</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalRecipient')">&times;</button>
+      </div>
+      <form id="formRecipient" onsubmit="handleCreateRecipient(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="recipientName">Organization / Shelter Name *</label>
+            <input type="text" id="recipientName" class="form-input" required placeholder="e.g. Sunshine Child Welfare & Shelter">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="recipientContactPerson">Key Contact Person</label>
+              <input type="text" id="recipientContactPerson" class="form-input" placeholder="e.g. Dr. Robert Chen">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="recipientPhone">Contact Phone</label>
+              <input type="text" id="recipientPhone" class="form-input" placeholder="+91 98112 23344">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="recipientEmail">Official Email</label>
+            <input type="email" id="recipientEmail" class="form-input" placeholder="contact@sunshinecare.org">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="recipientAddress">Facility Address</label>
+            <input type="text" id="recipientAddress" class="form-input" placeholder="Facility street address and city">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modalRecipient')">Cancel</button>
+          <button type="submit" class="btn btn-primary shadow-glow">Register Organization</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Drive Metrics & Summary Dialog (Modern replacement for browser alerts) -->
+  <div id="modalDriveMetrics" class="modal-backdrop">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h3 class="modal-title" id="metricModalDriveName">Drive Analytics</h3>
+          <p class="modal-subtitle" id="metricModalDates">Timeline</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modalDriveMetrics')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="metrics-grid modal-mini-grid">
+          <div class="metric-card metric-card-blue">
+            <div class="metric-label">Collected</div>
+            <div class="metric-value" id="metricModalCollected">0</div>
+          </div>
+          <div class="metric-card metric-card-purple">
+            <div class="metric-label">Distributed</div>
+            <div class="metric-value" id="metricModalDistributed">0</div>
+          </div>
+          <div class="metric-card metric-card-amber">
+            <div class="metric-label">In Stock</div>
+            <div class="metric-value" id="metricModalStock">0</div>
+          </div>
+        </div>
+
+        <div class="progress-details-box mt-4">
+          <div class="progress-details-header">
+            <span>Overall Fulfillment Ratio</span>
+            <strong id="metricModalPct">0%</strong>
+          </div>
+          <div class="progress-bar-container-lg">
+            <div class="progress-bar-fill-gradient" id="metricModalProgressFill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="drive-details-info mt-4" id="metricModalDetails">
+          <!-- Dynamic details -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalDriveMetrics')">Close</button>
+        <button type="button" class="btn btn-primary" id="metricModalActionBtn">Log Items for Drive</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
